@@ -1,0 +1,37 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Step 1: Read Data from Excel File
+df = pd.read_excel('hotel_booking_data.xlsx')
+
+# Line Chart: Analyze booking trends over months
+monthly_bookings = df.groupby('arrival_date_month').size().reindex(['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'])
+plt.figure(figsize=(10, 6))
+monthly_bookings.plot(marker='o')
+plt.title('Monthly Booking Trends')
+plt.xlabel('Month')
+plt.ylabel('Number of Bookings')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# Bar Chart: Analyze average daily rate (ADR) over months
+plt.figure(figsize=(10, 6))
+sns.barplot(x='arrival_date_month', y='adr', data=df, order=['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'])
+plt.title('Average Daily Rate (ADR) by Month')
+plt.xlabel('Month')
+plt.ylabel('ADR')
+plt.xticks(rotation=45)
+plt.tight_layout()
+plt.show()
+
+# Pie Chart: Analyze distribution of booking types
+booking_types = df['hotel'].value_counts()
+plt.figure(figsize=(8, 6))
+plt.pie(booking_types, labels=booking_types.index, autopct='%1.1f%%', startangle=140)
+plt.title('Distribution of Booking Types')
+plt.axis('equal')
+plt.tight_layout()
+plt.show()
+
